@@ -1,0 +1,46 @@
+version: "3.5"
+
+services:
+        postgres:
+                image: postgres:latest
+                ports:
+                        - "5433:5432"
+                environment:
+                        POSTGRES_USER: postgres
+                        POSTGRES_DB: javabackendlivro
+                        POSTGRES_PASSWORD: 123456
+
+        product:
+                image: suleimanmoaraes/product-api:1.0.0
+                ports:
+                        - "8081:8081"
+                environment:
+                        POSTGRES_URL: jdbc:postgresql://postgres:5432/javabackendlivro
+                        POSTGRES_USER: postgres
+                        POSTGRES_PASSWORD: 123456
+                depends_on:
+                        - postgres
+
+        user:
+                image: suleimanmoaraes/user-api:1.0.0
+                ports:
+                        - "8080:8080"
+                environment:
+                        POSTGRES_URL: jdbc:postgresql://postgres:5432/javabackendlivro
+                        POSTGRES_USER: postgres
+                        POSTGRES_PASSWORD: 123456
+                depends_on:
+                        - postgres
+
+        shopping:
+                image: suleimanmoaraes/shopping-api:1.0.0
+                ports:
+                        - "8082:8082"
+                environment:
+                        POSTGRES_URL: jdbc:postgresql://postgres:5432/javabackendlivro
+                        POSTGRES_USER: postgres
+                        POSTGRES_PASSWORD: 123456
+                        PRODUCT_API_URL: localhost:8081
+                        USER_API_URL: localhost:8080
+                depends_on:
+                        - postgres

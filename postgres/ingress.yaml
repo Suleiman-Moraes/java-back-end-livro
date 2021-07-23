@@ -1,0 +1,30 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: gateway-ingress
+spec:
+  rules:
+    - host: susumoraes.com.br
+      http:
+        paths:
+          - path: /user
+            pathType: Exact
+            backend:
+              service:
+                name: user-api
+                port: 
+                  number: 8080
+          - path: /product
+            pathType: Exact
+            backend:
+              service:
+                name: product-api
+                port: 
+                  number: 8081
+          - path: /shopping
+            pathType: Exact
+            backend:
+              service:
+                name: shopping-api
+                port: 
+                  number: 8082
